@@ -1,0 +1,33 @@
+{
+  "name": "feroze-server",
+  "version": "1.0.0",
+  "description": "FEROZE Designs & Holdings — backend API (Express + MongoDB)",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "seed:admin": "node src/utils/seedAdmin.js",
+    "seed:content": "node src/utils/seedContent.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "mongoose": "^8.1.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.0",
+    "cloudinary": "^2.0.0",
+    "multer": "^2.0.0",
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemailer": "^6.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.0",
+    "express-rate-limit": "^7.1.0",
+    "express-validator": "^7.0.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "cookie-parser": "^1.4.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

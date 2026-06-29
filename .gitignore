@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+client/dist/
+server/dist/
+*.local
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Private credentials file
+CREDENTIALS.md
+
+# Claude Code project settings
+.claude/
+
+# Screenshots / accidental files in asset folders
+client/public/videos/*.png
+client/public/videos/*.jpg
+client/public/videos/*.jpeg
+
+# Misc
+coverage/
+.cache/
+.vercel
+.turbo
