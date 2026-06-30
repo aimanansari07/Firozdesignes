@@ -1,8 +1,16 @@
 import api from './api.js';
 
 export const authService = {
-  login: (email, password) => api.post('/auth/login', { email, password }).then((r) => r.data),
-  logout: () => api.post('/auth/logout').then((r) => r.data),
+  login: async (email, password) => {
+    const res = await api.post('/auth/login', { email, password });
+    const body = res.data;
+    if (body.token) localStorage.setItem('admin_token', body.token);
+    return body;
+  },
+  logout: async () => {
+    localStorage.removeItem('admin_token');
+    return api.post('/auth/logout').then((r) => r.data);
+  },
   me: () => api.get('/auth/me').then((r) => r.data),
   dashboard: () => api.get('/admin/dashboard').then((r) => r.data),
 

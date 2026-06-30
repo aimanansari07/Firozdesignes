@@ -2,16 +2,22 @@ import axios from 'axios';
 
 const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-/**
- * Shared Axios instance.
- * - withCredentials so the httpOnly auth cookie is sent on admin requests.
- * - Response interceptor normalises errors and surfaces a friendly message.
- */
 const api = axios.create({
   baseURL,
   withCredentials: true,
   timeout: 15000,
   headers: { 'Content-Type': 'application/json' },
+});
+
+// Attach stored token as Bearer on every request.
+// This bypasses cross-site cookie restrictions when the frontend and backend
+// are on different domains (e.g. Vercel + Render).
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('admin_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 api.interceptors.response.use(

@@ -32,6 +32,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const logout = useCallback(async () => {
+    localStorage.removeItem('admin_token');
     try {
       await authService.logout();
     } finally {

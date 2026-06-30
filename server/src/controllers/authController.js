@@ -23,6 +23,7 @@ export const login = asyncHandler(async (req, res) => {
   res.cookie('token', token, cookieOptions());
   res.json({
     success: true,
+    token,
     data: { id: admin._id, username: admin.username, email: admin.email, role: admin.role },
   });
 });
