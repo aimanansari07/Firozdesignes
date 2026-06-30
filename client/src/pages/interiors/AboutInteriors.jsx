@@ -31,8 +31,8 @@ const capabilities = [
 
 export default function AboutInteriors() {
   const { data: settingsData } = useApi(() => siteSettingsService.get(), []);
-  const founderImage = settingsData && settingsData.data && settingsData.data.interiors && settingsData.data.interiors.founderImage;
-  const founderName = (settingsData && settingsData.data && settingsData.data.interiors && settingsData.data.interiors.founderName) || 'Feroz Shaikh';
+  const founderImage = settingsData?.data?.interiors?.founderImage || '';
+  const founderName = settingsData?.data?.interiors?.founderName || 'Feroz Shaikh';
 
   return (
     <PageTransition>
@@ -54,9 +54,11 @@ export default function AboutInteriors() {
             </p>
           </div>
           <LazyImage
-            src={founderImage || ''}
+            key={founderImage || 'interiors-about-placeholder'}
+            src={founderImage || undefined}
             seed="feroz-shaikh-portrait"
             label={founderName}
+            eager
             alt={'Portrait of ' + founderName + ', Founder & Principal Designer of Feroze Interiors'}
             className="aspect-[4/5] w-full border border-border"
           />

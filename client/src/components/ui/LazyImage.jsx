@@ -1,18 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { optimizeCloudinary, placeholderImage } from '../../utils/images.js';
 
-/**
- * Lazy-loaded image with a blur-up reveal.
- * - Native loading="lazy" + decoding="async".
- * - Falls back to a generated SVG placeholder when no src is provided or on error.
- * - Cloudinary URLs are auto-optimized (f_auto,q_auto).
- */
 export default function LazyImage({
   src,
   alt = '',
   seed,
   label,
   automotive = false,
+  eager = false,
   width,
   className = '',
   imgClassName = '',
@@ -20,6 +15,11 @@ export default function LazyImage({
 }) {
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
+
+  // Reset error when src changes so a newly-available URL always gets a fresh attempt
+  useEffect(() => {
+    setErrored(false);
+  }, [src]);
 
   const placeholder = placeholderImage(seed || alt || 'feroze', { label: label ?? alt, automotive });
   const resolved = src && !errored ? optimizeCloudinary(src, { width }) : placeholder;
@@ -30,7 +30,7 @@ export default function LazyImage({
       <img
         src={resolved}
         alt={alt}
-        loading="lazy"
+        loading={eager ? 'eager' : 'lazy'}
         decoding="async"
         onLoad={() => setLoaded(true)}
         onError={() => setErrored(true)}

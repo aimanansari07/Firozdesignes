@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, forwardRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ArrowLeft, X } from 'lucide-react';
@@ -242,9 +242,9 @@ function FormRow({ label, error, children }) {
   );
 }
 
-const Toggle = ({ label, ...props }) => (
+const Toggle = forwardRef(({ label, ...props }, ref) => (
   <label className="flex items-center gap-3 pt-7">
-    <input type="checkbox" {...props} className="h-4 w-4 accent-[#C9A96E]" />
+    <input type="checkbox" ref={ref} {...props} className="h-4 w-4 accent-[#C9A96E]" />
     <span className="font-body text-small text-white">{label}</span>
   </label>
-);
+));

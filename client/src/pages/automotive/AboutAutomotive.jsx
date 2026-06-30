@@ -8,7 +8,7 @@ import useApi from '../../hooks/useApi.js';
 import siteSettingsService from '../../services/siteSettingsService.js';
 import { BRANDS } from '../../utils/constants.js';
 
-const process = [
+const steps = [
   { n: '01', title: 'Sourcing', text: 'Authentic engine blocks, pistons, crankshafts and turbochargers are sourced and selected for their character.' },
   { n: '02', title: 'Restoration', text: 'Each component is meticulously cleaned, restored and finished by hand to showroom standard.' },
   { n: '03', title: 'Engineering', text: 'Custom bases, mounts and glass are engineered for stability, safety and sculptural balance.' },
@@ -17,9 +17,9 @@ const process = [
 
 export default function AboutAutomotive() {
   const { data: settingsData } = useApi(() => siteSettingsService.get(), []);
-  const founderImage = settingsData && settingsData.data && settingsData.data.automotive && settingsData.data.automotive.founderImage;
-  const founderName = (settingsData && settingsData.data && settingsData.data.automotive && settingsData.data.automotive.founderName) || 'Ayan Shaikh';
-  const tagline = (settingsData && settingsData.data && settingsData.data.automotive && settingsData.data.automotive.tagline) || BRANDS.automotive.tagline;
+  const founderImage = settingsData?.data?.automotive?.founderImage || '';
+  const founderName = settingsData?.data?.automotive?.founderName || 'Ayan Shaikh';
+  const tagline = settingsData?.data?.automotive?.tagline || BRANDS.automotive.tagline;
 
   return (
     <PageTransition>
@@ -41,10 +41,12 @@ export default function AboutAutomotive() {
             </p>
           </div>
           <LazyImage
-            src={founderImage || ''}
+            key={founderImage || 'automotive-about-placeholder'}
+            src={founderImage || undefined}
             seed="ayan-shaikh-portrait"
             label={founderName}
             automotive
+            eager
             alt={'Portrait of ' + founderName + ', Director - Design Innovation & Business Development'}
             className="aspect-[4/5] w-full border border-border"
           />
@@ -100,7 +102,7 @@ export default function AboutAutomotive() {
         <div className="container-feroze">
           <SectionLabel color="var(--color-automotive)">Our Manufacturing Process</SectionLabel>
           <div className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-4">
-            {process.map((s) => (
+            {steps.map((s) => (
               <div key={s.n} className="bg-bg p-8">
                 <span className="data text-2xl text-automotive">{s.n}</span>
                 <h3 className="mt-3 font-display text-heading font-light text-white">{s.title}</h3>
@@ -110,7 +112,14 @@ export default function AboutAutomotive() {
           </div>
           <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3">
             {['workshop-1', 'workshop-2', 'workshop-3'].map((seed) => (
-              <LazyImage key={seed} seed={seed} label="Workshop" automotive alt="Feroze Automotive Decor Mumbai workshop" className="aspect-video w-full border border-border" />
+              <LazyImage
+                key={seed}
+                seed={seed}
+                label="Workshop"
+                automotive
+                alt="Feroze Automotive Decor Mumbai workshop"
+                className="aspect-video w-full border border-border"
+              />
             ))}
           </div>
         </div>

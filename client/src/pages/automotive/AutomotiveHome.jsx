@@ -19,14 +19,14 @@ export default function AutomotiveHome() {
   const { data, loading } = useApi(() => productService.list({ limit: 100 }), []);
   const { data: settingsData } = useApi(() => siteSettingsService.get(), []);
 
-  const all = (data && data.data) || [];
+  const all = data?.data || [];
   const products = useMemo(
     () => (category === 'all' ? all : all.filter((p) => p.category === category)).slice(0, 9),
     [all, category]
   );
 
-  const founderImage = settingsData && settingsData.data && settingsData.data.automotive && settingsData.data.automotive.founderImage;
-  const founderName = (settingsData && settingsData.data && settingsData.data.automotive && settingsData.data.automotive.founderName) || 'Ayan Shaikh';
+  const founderImage = settingsData?.data?.automotive?.founderImage || '';
+  const founderName = settingsData?.data?.automotive?.founderName || 'Ayan Shaikh';
 
   return (
     <PageTransition>
@@ -100,7 +100,8 @@ export default function AutomotiveHome() {
       <section className="bg-surface py-14 md:py-24">
         <div className="container-feroze grid items-center gap-12 md:grid-cols-2">
           <LazyImage
-            src={founderImage || ''}
+            key={founderImage || 'automotive-home-placeholder'}
+            src={founderImage || undefined}
             seed="ayan-shaikh-portrait"
             label={founderName}
             automotive
