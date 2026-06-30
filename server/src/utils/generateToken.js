@@ -12,8 +12,12 @@ export function generateToken(admin) {
 export function cookieOptions() {
   return {
     httpOnly: true,
-    secure: env.isProd, // HTTPS only in production
-    sameSite: 'strict',
+    // In production the frontend (Vercel) and API (Render) are on different
+    // domains — a cross-site request. The cookie therefore needs
+    // SameSite=None + Secure so the browser will send it; otherwise the admin
+    // appears logged out on every request after login. Locally we keep 'lax'.
+    secure: env.isProd, // HTTPS only — required when sameSite is 'none'
+    sameSite: env.isProd ? 'none' : 'lax',
     maxAge: env.COOKIE_EXPIRE_DAYS * 24 * 60 * 60 * 1000,
     path: '/',
   };
