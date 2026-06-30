@@ -9,6 +9,7 @@ import {
   updateProject,
   deleteProject,
   togglePublishProject,
+  toggleFeaturedProject,
 } from '../controllers/projectController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import { validateRequest, sanitizeBody } from '../middleware/validateRequest.js';
@@ -37,3 +38,4 @@ adminProjectRouter.post('/', sanitizeBody, projectValidators, validateRequest, c
 adminProjectRouter.put('/:id', sanitizeBody, projectValidators, validateRequest, updateProject);
 adminProjectRouter.delete('/:id', deleteProject);
 adminProjectRouter.patch('/:id/publish', togglePublishProject);
+adminProjectRouter.patch('/:id/featured', toggleFeaturedProject);

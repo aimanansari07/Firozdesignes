@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Pencil, Trash2, Eye, EyeOff } from 'lucide-react';
+import { Pencil, Trash2, Eye, EyeOff, Star } from 'lucide-react';
 import LazyImage from '../../components/ui/LazyImage.jsx';
 import { titleCase } from '../../utils/formatters.js';
 
 /** Projects table used by ProjectsManager. */
-export default function ProjectsList({ projects = [], onTogglePublish, onDelete }) {
+export default function ProjectsList({ projects = [], onTogglePublish, onToggleFeatured, onDelete }) {
   if (!projects.length) {
     return (
       <div className="border border-border bg-surface py-16 text-center font-body text-small text-muted">
@@ -18,7 +18,7 @@ export default function ProjectsList({ projects = [], onTogglePublish, onDelete 
       <table className="w-full min-w-[760px]">
         <thead>
           <tr className="border-b border-border bg-surface text-left">
-            {['Cover', 'Title', 'Category', 'Location', 'Year', 'Status', 'Actions'].map((h) => (
+            {['Cover', 'Title', 'Category', 'Location', 'Year', 'Featured', 'Status', 'Actions'].map((h) => (
               <th key={h} className="px-4 py-3 font-body text-caption uppercase tracking-wider text-muted">{h}</th>
             ))}
           </tr>
@@ -33,6 +33,15 @@ export default function ProjectsList({ projects = [], onTogglePublish, onDelete 
               <td className="px-4 py-3 font-body text-small text-muted">{titleCase(p.category)}</td>
               <td className="px-4 py-3 font-body text-small text-muted">{p.location}</td>
               <td className="px-4 py-3 font-mono text-caption text-muted">{p.year}</td>
+              <td className="px-4 py-3">
+                <button
+                  onClick={() => onToggleFeatured(p)}
+                  title={p.featured ? 'Remove from featured' : 'Mark as featured'}
+                  className={`transition ${p.featured ? 'text-gold' : 'text-muted hover:text-gold'}`}
+                >
+                  <Star size={16} fill={p.featured ? 'currentColor' : 'none'} />
+                </button>
+              </td>
               <td className="px-4 py-3">
                 <button
                   onClick={() => onTogglePublish(p)}

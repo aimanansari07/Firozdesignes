@@ -19,6 +19,16 @@ export default function ProductsManager() {
     }
   };
 
+  const onToggleFeatured = async (p) => {
+    try {
+      await productService.toggleFeatured(p._id);
+      toast.success(p.featured ? 'Removed from featured' : 'Marked as featured');
+      refetch();
+    } catch (err) {
+      toast.error(err.friendlyMessage || 'Failed');
+    }
+  };
+
   const onDelete = async (p) => {
     if (!window.confirm(`Delete “${p.name}”? This cannot be undone.`)) return;
     try {
@@ -46,7 +56,7 @@ export default function ProductsManager() {
           Could not load products. {error}
         </p>
       ) : (
-        <ProductsList products={products} onTogglePublish={onTogglePublish} onDelete={onDelete} />
+        <ProductsList products={products} onTogglePublish={onTogglePublish} onToggleFeatured={onToggleFeatured} onDelete={onDelete} />
       )}
     </div>
   );

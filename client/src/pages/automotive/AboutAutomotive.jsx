@@ -4,22 +4,29 @@ import SectionLabel from '../../components/ui/SectionLabel.jsx';
 import GoldLine from '../../components/ui/GoldLine.jsx';
 import LazyImage from '../../components/ui/LazyImage.jsx';
 import CtaBanner from '../../components/home/CtaBanner.jsx';
+import useApi from '../../hooks/useApi.js';
+import siteSettingsService from '../../services/siteSettingsService.js';
 import { BRANDS } from '../../utils/constants.js';
 
 const process = [
   { n: '01', title: 'Sourcing', text: 'Authentic engine blocks, pistons, crankshafts and turbochargers are sourced and selected for their character.' },
   { n: '02', title: 'Restoration', text: 'Each component is meticulously cleaned, restored and finished by hand to showroom standard.' },
   { n: '03', title: 'Engineering', text: 'Custom bases, mounts and glass are engineered for stability, safety and sculptural balance.' },
-  { n: '04', title: 'Finishing', text: 'Chrome, matte, gloss or gold finishes are applied — and the piece is detailed as a collector’s item.' },
+  { n: '04', title: 'Finishing', text: 'Chrome, matte, gloss or gold finishes are applied and the piece is detailed as a collector item.' },
 ];
 
 export default function AboutAutomotive() {
+  const { data: settingsData } = useApi(() => siteSettingsService.get(), []);
+  const founderImage = settingsData && settingsData.data && settingsData.data.automotive && settingsData.data.automotive.founderImage;
+  const founderName = (settingsData && settingsData.data && settingsData.data.automotive && settingsData.data.automotive.founderName) || 'Ayan Shaikh';
+  const tagline = (settingsData && settingsData.data && settingsData.data.automotive && settingsData.data.automotive.tagline) || BRANDS.automotive.tagline;
+
   return (
     <PageTransition>
       <Seo
         title="About Ayan Shaikh & Feroze Automotive Decor"
         path="/automotive/about"
-        description="The story of Feroze Automotive Decor — founded by Ayan Shaikh. Where engineering meets craftsmanship, transforming real car parts into bespoke furniture."
+        description="The story of Feroze Automotive Decor - founded by Ayan Shaikh. Where engineering meets craftsmanship, transforming real car parts into bespoke furniture."
       />
 
       {/* Hero */}
@@ -27,17 +34,24 @@ export default function AboutAutomotive() {
         <div className="container-feroze grid items-center gap-12 md:grid-cols-2">
           <div>
             <SectionLabel color="var(--color-automotive)">{BRANDS.automotive.founderRole}</SectionLabel>
-            <h1 className="mt-4 font-display text-display font-light text-white">Ayan Shaikh</h1>
-            <p className="mt-2 font-display text-2xl font-light text-gold">Where Engineering Meets Craftsmanship</p>
+            <h1 className="mt-4 font-display text-display font-light text-white">{founderName}</h1>
+            <p className="mt-2 font-display text-2xl font-light text-gold">{tagline}</p>
             <p className="mt-6 font-body text-body text-muted">
               The next generation of the Feroze legacy — merging two worlds: automobiles and furniture.
             </p>
           </div>
-          <LazyImage seed="ayan-shaikh-portrait" label="Ayan Shaikh" automotive alt="Portrait of Ayan Shaikh, Director – Design Innovation & Business Development" className="aspect-[4/5] w-full border border-border" />
+          <LazyImage
+            src={founderImage || ''}
+            seed="ayan-shaikh-portrait"
+            label={founderName}
+            automotive
+            alt={'Portrait of ' + founderName + ', Director - Design Innovation & Business Development'}
+            className="aspect-[4/5] w-full border border-border"
+          />
         </div>
       </section>
 
-      {/* Bio (verbatim) */}
+      {/* Bio */}
       <section className="bg-bg py-12 md:py-20">
         <div className="container-feroze grid gap-10 md:grid-cols-[auto,1fr] md:gap-16">
           <GoldLine className="hidden h-full md:block" color="var(--color-automotive)" />

@@ -40,6 +40,7 @@ export const projectService = {
   update: (id, payload) => api.put(`/admin/projects/${id}`, payload).then((r) => r.data),
   remove: (id) => api.delete(`/admin/projects/${id}`).then((r) => r.data),
   togglePublish: (id) => api.patch(`/admin/projects/${id}/publish`).then((r) => r.data),
+  toggleFeatured: (id) => api.patch(`/admin/projects/${id}/featured`).then((r) => r.data),
 };
 
 export default projectService;

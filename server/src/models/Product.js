@@ -40,7 +40,7 @@ const productSchema = new mongoose.Schema(
     images: { type: [String], default: [] },
     featured: { type: Boolean, default: false, index: true },
     published: { type: Boolean, default: false, index: true },
-    order: { type: Number, default: 0 },
+    order: { type: Number, default: 1 },
   },
   { timestamps: true }
 );

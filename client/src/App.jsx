@@ -34,6 +34,7 @@ const ProductForm = lazy(() => import('./admin/products/ProductForm.jsx'));
 const TestimonialsList = lazy(() => import('./admin/testimonials/TestimonialsList.jsx'));
 const InquiriesList = lazy(() => import('./admin/inquiries/InquiriesList.jsx'));
 const ChangePassword = lazy(() => import('./admin/ChangePassword.jsx'));
+const SiteSettings = lazy(() => import('./admin/SiteSettings.jsx'));
 
 function PageLoader() {
   return (
@@ -106,6 +107,7 @@ export default function App() {
             <Route path="testimonials" element={<TestimonialsList />} />
             <Route path="inquiries" element={<InquiriesList />} />
             <Route path="settings/password" element={<ChangePassword />} />
+            <Route path="settings/site" element={<SiteSettings />} />
           </Route>
 
           {/* Everything else → public site */}

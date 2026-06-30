@@ -16,7 +16,7 @@ export const getProducts = asyncHandler(async (req, res) => {
   if (engineType) filter.engineType = new RegExp(engineType, 'i');
 
   const pageNum = Math.max(1, Number(page));
-  const perPage = Math.min(48, Math.max(1, Number(limit)));
+  const perPage = Math.min(200, Math.max(1, Number(limit)));
 
   const [items, total] = await Promise.all([
     Product.find(filter)
@@ -96,6 +96,14 @@ export const togglePublishProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
   product.published = !product.published;
+  await product.save();
+  res.json({ success: true, data: product });
+});
+
+export const toggleFeaturedProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
+  product.featured = !product.featured;
   await product.save();
   res.json({ success: true, data: product });
 });

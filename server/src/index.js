@@ -15,6 +15,7 @@ import { publicProductRouter, adminProductRouter } from './routes/productRoutes.
 import { publicTestimonialRouter, adminTestimonialRouter } from './routes/testimonialRoutes.js';
 import { publicInquiryRouter, adminInquiryRouter } from './routes/inquiryRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import { publicSettingsRouter, adminSettingsRouter } from './routes/siteSettingsRoutes.js';
 
 validateEnv();
 
@@ -62,6 +63,7 @@ app.use('/api/projects', publicProjectRouter);
 app.use('/api/products', publicProductRouter);
 app.use('/api/testimonials', publicTestimonialRouter);
 app.use('/api/inquiries', publicInquiryRouter);
+app.use('/api/settings', publicSettingsRouter);
 
 // ── Protected admin routes ────────────────────────────────
 app.use('/api/admin', dashboardRouter);
@@ -70,6 +72,7 @@ app.use('/api/admin/products', adminProductRouter);
 app.use('/api/admin/testimonials', adminTestimonialRouter);
 app.use('/api/admin/inquiries', adminInquiryRouter);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/admin/settings', adminSettingsRouter);
 
 // ── Errors ────────────────────────────────────────────────
 app.use(notFound);

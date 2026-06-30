@@ -11,26 +11,32 @@ import ProductFilter from '../../components/automotive/ProductFilter.jsx';
 import ProductGrid from '../../components/automotive/ProductGrid.jsx';
 import useApi from '../../hooks/useApi.js';
 import productService from '../../services/productService.js';
+import siteSettingsService from '../../services/siteSettingsService.js';
 import { BRANDS, WHATSAPP_URL } from '../../utils/constants.js';
 
 export default function AutomotiveHome() {
   const [category, setCategory] = useState('all');
   const { data, loading } = useApi(() => productService.list({ limit: 100 }), []);
-  const all = data?.data || [];
+  const { data: settingsData } = useApi(() => siteSettingsService.get(), []);
+
+  const all = (data && data.data) || [];
   const products = useMemo(
     () => (category === 'all' ? all : all.filter((p) => p.category === category)).slice(0, 9),
     [all, category]
   );
 
+  const founderImage = settingsData && settingsData.data && settingsData.data.automotive && settingsData.data.automotive.founderImage;
+  const founderName = (settingsData && settingsData.data && settingsData.data.automotive && settingsData.data.automotive.founderName) || 'Ayan Shaikh';
+
   return (
     <PageTransition>
       <Seo
-        title="Feroze Automotive Decor — Automotive Inspired Luxury Furniture"
+        title="Feroze Automotive Decor - Automotive Inspired Luxury Furniture"
         path="/automotive"
-        description="Feroze Automotive Decor — automotive-inspired luxury furniture engineered from real car parts. V6–V12 engine block tables, piston towers and bespoke statement pieces. Mumbai | Dubai."
+        description="Feroze Automotive Decor - automotive-inspired luxury furniture engineered from real car parts. V6-V12 engine block tables, piston towers and bespoke statement pieces. Mumbai | Dubai."
       />
 
-      {/* Hero — red-accent overtones */}
+      {/* Hero */}
       <section className="relative flex min-h-[70vh] sm:min-h-[88vh] items-center overflow-hidden bg-bg">
         <video
           autoPlay
@@ -46,9 +52,8 @@ export default function AutomotiveHome() {
           style={{ background: 'radial-gradient(circle at 70% 40%, rgba(139,26,26,0.18), transparent 60%)' }}
         />
         <div className="container-feroze relative z-10 pt-16 sm:pt-20">
-          {/* India's 1st stamp */}
           <span className="mb-6 inline-flex items-center gap-2 border border-automotive/60 bg-automotive/10 px-4 py-1.5 font-mono text-caption uppercase tracking-widest text-gold-light">
-            India’s 1st Automotive-Inspired Furniture
+            India's 1st Automotive-Inspired Furniture
           </span>
           <h1 className="max-w-4xl font-display font-light text-white" style={{ fontSize: 'var(--text-display)' }}>
             FEROZE Automotive Decor
@@ -91,13 +96,20 @@ export default function AutomotiveHome() {
         </div>
       </section>
 
-      {/* About Ayan teaser */}
+      {/* About founder teaser */}
       <section className="bg-surface py-14 md:py-24">
         <div className="container-feroze grid items-center gap-12 md:grid-cols-2">
-          <LazyImage seed="ayan-shaikh-portrait" label="Ayan Shaikh" alt="Ayan Shaikh, Director – Design Innovation & Business Development" className="aspect-[4/5] w-full border border-border" />
+          <LazyImage
+            src={founderImage || ''}
+            seed="ayan-shaikh-portrait"
+            label={founderName}
+            automotive
+            alt={founderName + ', Director - Design Innovation & Business Development'}
+            className="aspect-[4/5] w-full border border-border"
+          />
           <div>
             <SectionLabel color="var(--color-automotive)">The Founder</SectionLabel>
-            <h2 className="mt-4 font-display text-display font-light text-white">Ayan Shaikh</h2>
+            <h2 className="mt-4 font-display text-display font-light text-white">{founderName}</h2>
             <p className="mt-2 font-body text-small uppercase tracking-wider text-gold">{BRANDS.automotive.founderRole}</p>
             <p className="mt-6 font-body text-body text-muted">
               The next generation of the Feroze legacy. Combining automotive engineering with furniture craftsmanship,

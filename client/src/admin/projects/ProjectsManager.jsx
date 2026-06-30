@@ -19,6 +19,16 @@ export default function ProjectsManager() {
     }
   };
 
+  const onToggleFeatured = async (p) => {
+    try {
+      await projectService.toggleFeatured(p._id);
+      toast.success(p.featured ? 'Removed from featured' : 'Marked as featured');
+      refetch();
+    } catch (err) {
+      toast.error(err.friendlyMessage || 'Failed');
+    }
+  };
+
   const onDelete = async (p) => {
     if (!window.confirm(`Delete “${p.title}”? This cannot be undone.`)) return;
     try {
@@ -46,7 +56,7 @@ export default function ProjectsManager() {
           Could not load projects. {error}
         </p>
       ) : (
-        <ProjectsList projects={projects} onTogglePublish={onTogglePublish} onDelete={onDelete} />
+        <ProjectsList projects={projects} onTogglePublish={onTogglePublish} onToggleFeatured={onToggleFeatured} onDelete={onDelete} />
       )}
     </div>
   );

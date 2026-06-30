@@ -57,7 +57,7 @@ export default function ProjectForm() {
     const payload = {
       ...values,
       year: values.year ? Number(values.year) : undefined,
-      order: values.order ? Number(values.order) : 0,
+      order: values.order !== '' && values.order != null ? Number(values.order) : 1,
       images,
     };
     try {
@@ -116,7 +116,7 @@ export default function ProjectForm() {
         </FormRow>
 
         <div className="grid gap-6 sm:grid-cols-3">
-          <FormRow label="Sort Order"><input type="number" {...register('order')} className="form-input" placeholder="0" /></FormRow>
+          <FormRow label="Sort Order"><input type="number" {...register('order')} className="form-input" placeholder="1" /></FormRow>
           <Toggle label="Featured" {...register('featured')} />
           <Toggle label="Published" {...register('published')} />
         </div>

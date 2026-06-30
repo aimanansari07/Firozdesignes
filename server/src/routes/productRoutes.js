@@ -9,6 +9,7 @@ import {
   updateProduct,
   deleteProduct,
   togglePublishProduct,
+  toggleFeaturedProduct,
 } from '../controllers/productController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import { validateRequest, sanitizeBody } from '../middleware/validateRequest.js';
@@ -38,3 +39,4 @@ adminProductRouter.post('/', sanitizeBody, productValidators, validateRequest, c
 adminProductRouter.put('/:id', sanitizeBody, productValidators, validateRequest, updateProduct);
 adminProductRouter.delete('/:id', deleteProduct);
 adminProductRouter.patch('/:id/publish', togglePublishProduct);
+adminProductRouter.patch('/:id/featured', toggleFeaturedProduct);

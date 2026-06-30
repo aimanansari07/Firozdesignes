@@ -12,7 +12,7 @@ const PER_PAGE = 12;
 export default function Projects() {
   const [category, setCategory] = useState('all');
   const [page, setPage] = useState(1);
-  const { data, loading } = useApi(() => projectService.list({ limit: 100 }), []);
+  const { data, loading } = useApi(() => projectService.list({ limit: 200 }), []);
   const all = data?.data || [];
 
   const filtered = useMemo(

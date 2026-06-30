@@ -17,7 +17,7 @@ export const getProjects = asyncHandler(async (req, res) => {
   if (year) filter.year = Number(year);
 
   const pageNum = Math.max(1, Number(page));
-  const perPage = Math.min(48, Math.max(1, Number(limit)));
+  const perPage = Math.min(200, Math.max(1, Number(limit)));
 
   const [items, total] = await Promise.all([
     Project.find(filter)
@@ -99,6 +99,14 @@ export const togglePublishProject = asyncHandler(async (req, res) => {
   const project = await Project.findById(req.params.id);
   if (!project) return res.status(404).json({ success: false, message: 'Project not found' });
   project.published = !project.published;
+  await project.save();
+  res.json({ success: true, data: project });
+});
+
+export const toggleFeaturedProject = asyncHandler(async (req, res) => {
+  const project = await Project.findById(req.params.id);
+  if (!project) return res.status(404).json({ success: false, message: 'Project not found' });
+  project.featured = !project.featured;
   await project.save();
   res.json({ success: true, data: project });
 });

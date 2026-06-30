@@ -12,6 +12,7 @@ import {
   X,
   ExternalLink,
   KeyRound,
+  Settings,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import useAuth from '../hooks/useAuth.js';
@@ -22,6 +23,7 @@ const nav = [
   { to: '/admin/products', label: 'Products', icon: Package },
   { to: '/admin/testimonials', label: 'Testimonials', icon: Quote },
   { to: '/admin/inquiries', label: 'Inquiries', icon: Inbox },
+  { to: '/admin/settings/site', label: 'Site Settings', icon: Settings },
 ];
 
 export default function AdminLayout() {

@@ -39,6 +39,7 @@ export const productService = {
   update: (id, payload) => api.put(`/admin/products/${id}`, payload).then((r) => r.data),
   remove: (id) => api.delete(`/admin/products/${id}`).then((r) => r.data),
   togglePublish: (id) => api.patch(`/admin/products/${id}/publish`).then((r) => r.data),
+  toggleFeatured: (id) => api.patch(`/admin/products/${id}/featured`).then((r) => r.data),
 };
 
 export default productService;
