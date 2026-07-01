@@ -7,6 +7,7 @@ export const SITE = {
   url: 'https://www.ferozedesigns.com',
   locations: 'Mumbai | Dubai',
   email: 'info@ferozedesigns.com',
+  emailHref: 'ferozdesigns@gmail.com',
   phoneDisplay: '+91 83558 21370',
 };
 

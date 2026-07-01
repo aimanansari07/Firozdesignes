@@ -77,7 +77,7 @@ export default function Footer() {
         {/* Contact row */}
         <div className="mt-10 md:mt-14 flex flex-col gap-4 border-t border-border pt-6 md:pt-8 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col gap-2 sm:flex-row sm:gap-8">
-            <a href={`mailto:${SITE.email}`} className="inline-flex items-center gap-2 font-body text-small text-muted transition hover:text-gold">
+            <a href={`mailto:${SITE.emailHref}`} className="inline-flex items-center gap-2 font-body text-small text-muted transition hover:text-gold">
               <Mail size={15} /> {SITE.email}
             </a>
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-body text-small text-muted transition hover:text-gold">

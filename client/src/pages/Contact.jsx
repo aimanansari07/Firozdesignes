@@ -61,7 +61,7 @@ export default function Contact() {
             <div className="space-y-8">
               <ContactRow icon={MessageCircle} label="WhatsApp" value={SITE.phoneDisplay} href={WHATSAPP_URL} />
               <ContactRow icon={Phone} label="Phone" value={SITE.phoneDisplay} href={`tel:+${SITE.phoneDisplay.replace(/\D/g, '')}`} />
-              <ContactRow icon={Mail} label="Email" value={SITE.email} href={`mailto:${SITE.email}`} />
+              <ContactRow icon={Mail} label="Email" value={SITE.email} href={`mailto:${SITE.emailHref}`} />
               <ContactRow icon={MapPin} label="Studio" value="Mumbai, India · Expanding to Dubai" />
             </div>
 
