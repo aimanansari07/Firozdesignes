@@ -4,7 +4,7 @@ import SectionLabel from '../ui/SectionLabel.jsx';
 import Button from '../ui/Button.jsx';
 import { INSTAGRAM } from '../../utils/constants.js';
 
-const FEED_ID = import.meta.env.VITE_BEHOLD_FEED_ID || '';
+const FEED_ID = import.meta.env.VITE_BEHOLD_FEED_ID || 'O7WEXSmDRzWkuXZB9eZq';
 const FALLBACK_COUNT = 8;
 
 export default function InstagramFeed() {
