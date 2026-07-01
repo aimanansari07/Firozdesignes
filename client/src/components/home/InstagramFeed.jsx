@@ -4,26 +4,35 @@ import SectionLabel from '../ui/SectionLabel.jsx';
 import Button from '../ui/Button.jsx';
 import { INSTAGRAM } from '../../utils/constants.js';
 
-const FEED_ID = import.meta.env.VITE_BEHOLD_FEED_ID || 'O7WEXSmDRzWkuXZB9eZq';
-const FALLBACK_COUNT = 8;
+const INTERIORS_FEED_ID = import.meta.env.VITE_BEHOLD_FEED_ID || 'O7WEXSmDRzWkuXZB9eZq';
+const AUTOMOTIVE_FEED_ID = import.meta.env.VITE_BEHOLD_AUTOMOTIVE_FEED_ID || 'XOqsRrev044tIjacbHlg';
+const PER_ACCOUNT = 4;
+
+async function fetchPosts(feedId) {
+  const res = await fetch(`https://feeds.behold.so/${feedId}`);
+  const data = await res.json();
+  const list = Array.isArray(data) ? data : (data.posts || data.feed || data.data || []);
+  return list.slice(0, PER_ACCOUNT);
+}
 
 export default function InstagramFeed() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!FEED_ID) { setLoading(false); return; }
-    fetch(`https://feeds.behold.so/${FEED_ID}`)
-      .then((r) => r.json())
-      .then((data) => {
-        const list = Array.isArray(data) ? data : (data.posts || data.feed || data.data || []);
-        setPosts(list.slice(0, FALLBACK_COUNT));
+    Promise.allSettled([fetchPosts(INTERIORS_FEED_ID), fetchPosts(AUTOMOTIVE_FEED_ID)])
+      .then(([interiors, automotive]) => {
+        const combined = [
+          ...(interiors.status === 'fulfilled' ? interiors.value : []),
+          ...(automotive.status === 'fulfilled' ? automotive.value : []),
+        ];
+        setPosts(combined);
       })
-      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
   const showFallback = !loading && posts.length === 0;
+  const totalTiles = PER_ACCOUNT * 2;
 
   return (
     <section className="bg-bg py-14 md:py-24">
@@ -39,7 +48,7 @@ export default function InstagramFeed() {
 
         {loading && (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {Array.from({ length: FALLBACK_COUNT }).map((_, i) => (
+            {Array.from({ length: totalTiles }).map((_, i) => (
               <div key={i} className="aspect-square animate-pulse bg-surface border border-border" />
             ))}
           </div>
@@ -57,8 +66,10 @@ export default function InstagramFeed() {
                 aria-label={post.caption?.slice(0, 60) || 'Instagram post'}
               >
                 <img
-                  src={post.mediaType === 'VIDEO' ? (post.thumbnailUrl || post.thumbnail_url) : (post.mediaUrl || post.media_url)}
-                  alt={post.caption?.slice(0, 60) || 'Feroze Interiors'}
+                  src={(post.mediaType === 'VIDEO' || post.media_type === 'VIDEO')
+                    ? (post.thumbnailUrl || post.thumbnail_url)
+                    : (post.mediaUrl || post.media_url)}
+                  alt={post.caption?.slice(0, 60) || 'Feroze Designs'}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
@@ -72,7 +83,7 @@ export default function InstagramFeed() {
 
         {showFallback && (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {Array.from({ length: FALLBACK_COUNT }).map((_, i) => (
+            {Array.from({ length: totalTiles }).map((_, i) => (
               <div key={i} className="aspect-square border border-border bg-surface flex items-center justify-center">
                 <Instagram className="text-muted/30" size={28} />
               </div>
