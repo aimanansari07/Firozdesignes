@@ -15,7 +15,10 @@ export default function InstagramFeed() {
     if (!FEED_ID) { setLoading(false); return; }
     fetch(`https://feeds.behold.so/${FEED_ID}`)
       .then((r) => r.json())
-      .then((data) => setPosts((data || []).slice(0, FALLBACK_COUNT)))
+      .then((data) => {
+        const list = Array.isArray(data) ? data : (data.posts || data.feed || data.data || []);
+        setPosts(list.slice(0, FALLBACK_COUNT));
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
@@ -54,7 +57,7 @@ export default function InstagramFeed() {
                 aria-label={post.caption?.slice(0, 60) || 'Instagram post'}
               >
                 <img
-                  src={post.mediaType === 'VIDEO' ? post.thumbnailUrl : post.mediaUrl}
+                  src={post.mediaType === 'VIDEO' ? (post.thumbnailUrl || post.thumbnail_url) : (post.mediaUrl || post.media_url)}
                   alt={post.caption?.slice(0, 60) || 'Feroze Interiors'}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
