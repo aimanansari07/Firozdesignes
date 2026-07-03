@@ -111,10 +111,11 @@ export default function AboutAutomotive() {
             ))}
           </div>
           <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3">
-            {['workshop-1', 'workshop-2', 'workshop-3'].map((seed) => (
+            {['/workshop-1.png', '/workshop-2.png', '/workshop-3.png'].map((src) => (
               <LazyImage
-                key={seed}
-                seed={seed}
+                key={src}
+                src={src}
+                seed={src}
                 label="Workshop"
                 automotive
                 alt="Feroze Automotive Decor Mumbai workshop"
