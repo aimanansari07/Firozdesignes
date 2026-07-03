@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Download, X } from 'lucide-react';
+import { Download, X, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import useApi from '../../hooks/useApi.js';
 import inquiryService from '../../services/inquiryService.js';
@@ -44,6 +44,18 @@ export default function InquiriesList() {
       refetch();
     } catch (err) {
       toast.error(err.friendlyMessage || 'Failed');
+    }
+  };
+
+  const deleteInquiry = async (q) => {
+    if (!window.confirm(`Delete inquiry from ${q.name}? This cannot be undone.`)) return;
+    try {
+      await inquiryService.remove(q._id);
+      toast.success('Inquiry deleted');
+      setActive((a) => (a && a._id === q._id ? null : a));
+      refetch();
+    } catch (err) {
+      toast.error(err.friendlyMessage || 'Failed to delete');
     }
   };
 
@@ -92,14 +104,14 @@ export default function InquiriesList() {
           <table className="w-full min-w-[720px]">
             <thead>
               <tr className="border-b border-border bg-surface text-left">
-                {['Name', 'Contact', 'Brand', 'Type', 'Status', 'Date', ''].map((h) => (
-                  <th key={h} className="px-4 py-3 font-body text-caption uppercase tracking-wider text-muted">{h}</th>
+                {['Name', 'Contact', 'Brand', 'Type', 'Status', 'Date', '', ''].map((h, i) => (
+                  <th key={i} className="px-4 py-3 font-body text-caption uppercase tracking-wider text-muted">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {rows.length === 0 ? (
-                <tr><td colSpan={7} className="px-4 py-10 text-center font-body text-small text-muted">No inquiries.</td></tr>
+                <tr><td colSpan={8} className="px-4 py-10 text-center font-body text-small text-muted">No inquiries.</td></tr>
               ) : (
                 rows.map((q) => (
                   <tr key={q._id} className="cursor-pointer border-b border-border last:border-0 hover:bg-surface" onClick={() => setActive(q)}>
@@ -110,6 +122,16 @@ export default function InquiriesList() {
                     <td className="px-4 py-3"><StatusBadge status={q.status} /></td>
                     <td className="px-4 py-3 font-mono text-caption text-muted">{formatDateTime(q.createdAt)}</td>
                     <td className="px-4 py-3 font-body text-caption text-gold">View</td>
+                    <td className="px-4 py-3">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); deleteInquiry(q); }}
+                        className="text-red-500 transition hover:text-red-400"
+                        aria-label={`Delete inquiry from ${q.name}`}
+                        title="Delete inquiry"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}

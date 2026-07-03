@@ -4,6 +4,7 @@ import {
   createInquiry,
   adminGetInquiries,
   updateInquiryStatus,
+  deleteInquiry,
 } from '../controllers/inquiryController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import { validateRequest, sanitizeBody } from '../middleware/validateRequest.js';
@@ -26,3 +27,4 @@ export const adminInquiryRouter = Router();
 adminInquiryRouter.use(protect);
 adminInquiryRouter.get('/', adminGetInquiries);
 adminInquiryRouter.patch('/:id/status', updateInquiryStatus);
+adminInquiryRouter.delete('/:id', deleteInquiry);

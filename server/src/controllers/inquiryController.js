@@ -31,6 +31,13 @@ export const adminGetInquiries = asyncHandler(async (req, res) => {
   res.json({ success: true, count: items.length, data: items });
 });
 
+/** DELETE /api/admin/inquiries/:id */
+export const deleteInquiry = asyncHandler(async (req, res) => {
+  const item = await Inquiry.findByIdAndDelete(req.params.id);
+  if (!item) return res.status(404).json({ success: false, message: 'Inquiry not found' });
+  res.json({ success: true, message: 'Inquiry deleted' });
+});
+
 /** PATCH /api/admin/inquiries/:id/status */
 export const updateInquiryStatus = asyncHandler(async (req, res) => {
   const { status } = req.body;
