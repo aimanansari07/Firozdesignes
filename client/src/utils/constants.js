@@ -84,7 +84,7 @@ export const PRODUCT_CATEGORIES = [
   { key: 'side-table', label: 'Side Tables' },
   { key: 'wall-art', label: 'Wall Art' },
   { key: 'statement-piece', label: 'Statement Pieces' },
-  { key: 'shelf', label: 'Shelves' },
+  { key: 'shelf', label: 'Chairs' },
   { key: 'custom', label: 'Custom' },
 ];
 
